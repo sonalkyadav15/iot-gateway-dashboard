@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+const API_URL = "https://iot-gateway-dashboard.onrender.com/api/telemetry";
 
-const API_URL = "http://localhost:8080/api/telemetry";
+// const API_URL = "http://localhost:8080/api/telemetry";
 
 function App() {
   const [telemetry, setTelemetry] = useState([]);
