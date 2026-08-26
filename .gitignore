@@ -1,0 +1,25 @@
+# Dependencies
+frontend/node_modules/
+
+# Production build
+frontend/dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Go build files
+backend/*.exe
+backend/*.test
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
