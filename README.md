@@ -2,38 +2,27 @@
 
 A lightweight end-to-end IoT telemetry monitoring dashboard built using Go and React.
 
-The application simulates telemetry data for three IoT gateways and displays the latest readings in a real-time dashboard.
+The application simulates telemetry data for three IoT gateways and displays real-time temperature, humidity, status, historical readings, and temperature trends.
 
 ## Features
 
-- Go backend telemetry simulator
-- Three fictional gateways:
+- Three IoT gateways
   - gateway-01
   - gateway-02
   - gateway-03
-- Mock telemetry generated every 2 seconds
-- In-memory storage of the latest 30 readings
-- REST API for telemetry data
-- CORS enabled for local frontend communication
-- React dashboard
-- Live temperature and humidity metrics
-- Online status for each gateway
-- Historical table showing latest 10 readings
+- Telemetry generated every 2 seconds
+- REST API
+- In-memory storage of recent readings
+- Real-time temperature and humidity
+- Gateway online status
 - Gateway filter
-- Pause and resume live updates
-- Real-time temperature trend chart
+- Historical telemetry logs
+- Temperature trend chart
+- Pause/Resume live updates
 - Backend connection error handling
-- Responsive dark-themed dashboard UI
+- Responsive dashboard UI
 
 ## Tech Stack
-
-### Backend
-
-- Go
-- Go net/http
-- REST API
-- CORS
-- In-memory telemetry storage
 
 ### Frontend
 
@@ -41,119 +30,146 @@ The application simulates telemetry data for three IoT gateways and displays the
 - Vite
 - JavaScript
 - CSS
-- SVG temperature chart
+
+### Backend
+
+- Go
+- net/http
+- REST API
+- CORS
+- In-memory storage
+
+### Deployment
+
+- Vercel - Frontend
+- Render - Backend
+- Docker
+- Docker Compose
+- Nginx
 
 ## Project Structure
 
 ```text
 iot-gateway-dashboard/
-│
 ├── backend/
+│   ├── main.go
 │   ├── go.mod
-│   └── main.go
-│
+│   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   └── main.jsx
+│   ├── public/
 │   ├── package.json
-│   └── vite.config.js
-│
+│   └── Dockerfile
+├── docker-compose.yml
 ├── .gitignore
 └── README.md
-
+```
 
 ## Prerequisites
 
-Make sure the following are installed on your system:
+Make sure the following are installed:
 
 - Go
 - Node.js
 - npm
 - Git
+- Docker Desktop (for Docker setup)
 
-Check the installed versions:
+## API
 
-go version
-node -v
-npm -v
-git --version
+### Local API
 
+```text
+http://localhost:8080/api/telemetry
+```
 
-## Run the Backend
+### Production API
 
-Open a terminal and navigate to the backend folder:
+```text
+https://iot-gateway-dashboard.onrender.com/api/telemetry
+```
 
+The API returns telemetry data including:
+
+- Gateway ID
+- Temperature
+- Humidity
+- Status
+- Timestamp
+
+## Local Setup
+
+### 1. Run Backend
+
+From the project root:
+
+```bash
 cd backend
-
-Run the backend:
-
 go run .
+```
 
-The backend will start at:
+Backend runs at:
 
+```text
 http://localhost:8080
+```
 
 Telemetry API:
 
+```text
 http://localhost:8080/api/telemetry
+```
 
+### 2. Run Frontend
 
-## Run the Frontend
+Open another terminal:
 
-Open another terminal and navigate to the frontend folder:
-
+```bash
 cd frontend
-
-Install dependencies:
-
 npm install
-
-Start the development server:
-
 npm run dev
+```
 
-Open the URL shown by Vite, normally:
+Frontend runs at:
 
+```text
 http://localhost:5173
+```
 
+## Docker Setup
 
-## API Response
+Make sure Docker Desktop is running.
 
-The telemetry API returns JSON readings similar to:
+From the project root:
 
-{
-  "gateway_id": "gateway-01",
-  "temperature": 24.5,
-  "humidity": 60.2,
-  "status": "ONLINE",
-  "timestamp": "2026-08-13T10:15:30Z"
-}
+```bash
+docker compose build
+docker compose up
+```
 
+The Docker Compose setup runs both the frontend and backend services.
 
-## Dashboard Controls
+Frontend:
 
-### Gateway Filter
+```text
+http://localhost:5173
+```
 
-The gateway filter allows the user to select:
+Backend API:
 
-- All Gateways
-- gateway-01
-- gateway-02
-- gateway-03
+```text
+http://localhost:8080/api/telemetry
+```
 
-When a gateway is selected, the temperature chart and historical table display readings for that gateway.
+To stop the containers:
 
-### Pause Live Updates
-
-The Pause Live Updates button stops frontend telemetry polling.
-
-Clicking Resume Live Updates starts live polling again.
-
+```bash
+docker compose down
+```
 
 ## Data Flow
 
+```text
 Go Telemetry Generator
         ↓
 In-Memory Storage
@@ -166,64 +182,43 @@ Dashboard
    ┌────┼────┐
    ↓    ↓    ↓
  Cards Chart Table
-
-
-## Telemetry Update Frequency
-
-The backend generates new telemetry every 2 seconds.
-
-The React frontend polls the backend every 2 seconds while live updates are enabled.
-
-
-## Error Handling
-
-If the Go backend is unavailable, the frontend displays:
-
-Unable to connect to backend
-
-Once the backend is available again, the dashboard can connect to the backend again and receive telemetry.
-
+```
 
 ## Testing
-
-The backend was tested using:
-
-go vet ./...
-
-Backend build was verified using:
-
-go build .
 
 The following functionality was tested:
 
 - Backend API response
-- Live telemetry updates
-- 2-second data updates
-- Gateway filter
-- Temperature chart
-- Historical telemetry table
-- Pause live updates
-- Resume live updates
+- Real-time telemetry updates
+- Temperature and humidity updates
+- Gateway filtering
+- Temperature trend chart
+- Historical telemetry logs
+- Pause/Resume live updates
 - Backend connection error handling
+- Docker build and containers
+- Frontend and backend deployment
 
+Backend verification:
 
-## Assessment Requirements Covered
+```bash
+go vet ./...
+go build .
+```
 
-The project covers the required functionality:
+## Live Demo
 
-- Go backend for simulated IoT telemetry
-- Three gateways
-- Telemetry generation every 2 seconds
-- Storage of recent telemetry readings
-- REST API
-- CORS support
-- React dashboard
-- Gateway metrics cards
-- Historical log table
-- Gateway filter
-- Pause/resume live updates
-- Temperature trend visualization
+### Frontend
 
+https://iot-gateway-dashboard.vercel.app
+
+### Backend API
+
+https://iot-gateway-dashboard.onrender.com/api/telemetry
+
+## GitHub Repository
+
+https://github.com/sonalkyadav15/iot-gateway-dashboard
 
 ## Author
 
